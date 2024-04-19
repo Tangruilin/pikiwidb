@@ -96,7 +96,7 @@ struct PMasterInfo {
   PMasterInfo() {
     state = kPReplStateNone;
     downSince = 0;
-    rdbSize = std::size_t(-1);
+    rdbSize = static_cast<std::size_t>(-1);
     rdbRecved = 0;
   }
 };

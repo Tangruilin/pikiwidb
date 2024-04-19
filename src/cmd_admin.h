@@ -12,8 +12,6 @@
 
 namespace pikiwidb {
 
-extern PConfig g_config;
-
 class CmdConfig : public BaseCmdGroup {
  public:
   CmdConfig(const std::string& name, int arity);

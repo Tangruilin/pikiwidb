@@ -141,9 +141,9 @@ std::string MergeString(const std::vector<AtomicString*>& values, char delimiter
 // The defer class for C++11
 class ExecuteOnScopeExit {
  public:
-  ExecuteOnScopeExit() {}
+  ExecuteOnScopeExit() = default;
 
-  ExecuteOnScopeExit(ExecuteOnScopeExit&& e) { func_ = std::move(e.func_); }
+  ExecuteOnScopeExit(ExecuteOnScopeExit&& e) noexcept { func_ = std::move(e.func_); }
 
   ExecuteOnScopeExit(const ExecuteOnScopeExit& e) = delete;
   void operator=(const ExecuteOnScopeExit& f) = delete;

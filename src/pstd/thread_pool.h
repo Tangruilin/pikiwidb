@@ -33,9 +33,9 @@ class ThreadPool final {
   void SetMaxIdleThread(unsigned int m);
 
  private:
-  void _CreateWorker();
-  void _WorkerRoutine();
-  void _MonitorRoutine();
+  void CreateWorker();
+  void WorkerRoutine();
+  void MonitorRoutine();
 
   std::thread monitor_;
   std::atomic<unsigned> maxIdleThread_;
@@ -68,7 +68,7 @@ auto ThreadPool::ExecuteTask(F&& f, Args&&... args) -> std::future<typename std:
 
     tasks_.emplace_back([=]() { (*task)(); });
     if (waiters_ == 0) {
-      _CreateWorker();
+      CreateWorker();
     }
 
     cond_.notify_one();

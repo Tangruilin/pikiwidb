@@ -27,7 +27,7 @@ class InputMemoryFile {
   bool IsOpen() const;
 
  private:
-  bool _MapReadOnly();
+  bool MapReadOnly();
 
   int file_;
   char* pMemory_;
@@ -65,9 +65,9 @@ class OutputMemoryFile {
   bool IsOpen() const;
 
  private:
-  bool _MapWriteOnly();
-  void _ExtendFileSize(std::size_t size);
-  void _AssureSpace(std::size_t size);
+  bool MapWriteOnly();
+  void ExtendFileSize(std::size_t size);
+  void AssureSpace(std::size_t size);
 
   int file_;
   char* pMemory_;
