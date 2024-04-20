@@ -12,6 +12,7 @@
 #include "cmd_keys.h"
 #include "cmd_kv.h"
 #include "cmd_list.h"
+#include "cmd_ping.h"
 #include "cmd_set.h"
 #include "cmd_table_manager.h"
 #include "cmd_zset.h"
@@ -37,6 +38,9 @@ void CmdTableManager::InitCmdTable() {
   configPtr->AddSubCmd(std::make_unique<CmdConfigGet>("get", -3));
   configPtr->AddSubCmd(std::make_unique<CmdConfigSet>("set", -4));
   cmds_->insert(std::make_pair(kCmdNameConfig, std::move(configPtr)));
+
+  // ping
+  ADD_COMMAND(Ping, 0);
 
   // server
   ADD_COMMAND(Flushdb, 1);
