@@ -37,6 +37,7 @@ void CmdTableManager::InitCmdTable() {
   configPtr->AddSubCmd(std::make_unique<CmdConfigGet>("get", -3));
   configPtr->AddSubCmd(std::make_unique<CmdConfigSet>("set", -4));
   cmds_->insert(std::make_pair(kCmdNameConfig, std::move(configPtr)));
+  ADD_COMMAND(Ping, 0);
 
   // server
   ADD_COMMAND(Flushdb, 1);

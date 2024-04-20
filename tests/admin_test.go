@@ -147,4 +147,9 @@ var _ = Describe("Admin", Ordered, func() {
 		Expect(res.Err()).NotTo(HaveOccurred())
 		Expect(res.Val()).To(Equal(map[string]string{"timeout": "60"}))
 	})
+
+	It("PING", func() {
+		ping := client.Ping(ctx)
+		Expect(ping.Err()).NotTo(HaveOccurred())
+	})
 })
