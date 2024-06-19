@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.14)
+PROJECT(PikiwiProxy)
+
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+
+add_executable(PikiwiProxy proxy.cc)
+
+target_include_directories(PikiwiProxy
+    PUBLIC ${CMAKE_SOURCE_DIR}/src
+    PUBLIC ${CMAKE_SOURCE_DIR}/src/proxy
+    PUBLIC ${CMAKE_SOURCE_DIR}/src/pstd
+    PUBLIC ${PROJECT_SOURCE_DIR}/src/net
+    PRIVATE ${BRPC_INCLUDE_DIR}
+)
+
+#[[
+    TODO(tangruilin.trl): now proxy may use the thread_pool and cmd parser which are defined in storage
+    we need to move thread_pool wo a new module called tools or move it to pstd,
+    then the base_cmd may be moved to a new module called redis_parser or cmd
+]]
+TARGET_LINK_LIBRARIES(PikiwiProxy; net pstd event_extra event_core storage)
