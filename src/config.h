@@ -11,6 +11,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <shared_mutex>
 #include <string>
 #include <unordered_map>
@@ -173,6 +174,7 @@ class PConfig {
   std::atomic_int rocksdb_level0_stop_writes_trigger = 36;
   std::atomic_uint64_t rocksdb_ttl_second = 604800;       // default 86400 * 7
   std::atomic_uint64_t rocksdb_periodic_second = 259200;  // default 86400 * 3
+  std::optional<std::string> auth = std::nullopt;
 
   rocksdb::Options GetRocksDBOptions();
 

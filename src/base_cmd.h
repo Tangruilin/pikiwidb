@@ -22,6 +22,7 @@ namespace pikiwidb {
 
 // command definition
 // base cmd
+const std::string kCmdNameEcho = " echo ";
 const std::string kCmdNamePing = "ping";
 
 // key cmd

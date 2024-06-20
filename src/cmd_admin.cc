@@ -6,6 +6,9 @@
  */
 
 #include "cmd_admin.h"
+#include <optional>
+#include "client.h"
+#include "config.h"
 #include "db.h"
 
 #include "braft/raft.h"
@@ -134,6 +137,39 @@ PingCmd::PingCmd(const std::string& name, int16_t arity) : BaseCmd(name, arity, 
 bool PingCmd::DoInitial(PClient* client) { return true; }
 
 void PingCmd::DoCmd(PClient* client) { client->SetRes(CmdRes::kPong, "PONG"); }
+
+EchoCmd::EchoCmd(const std::string& name, int16_t arity) : BaseCmd(name, arity, kCmdFlagsFast, kAclCategoryFast) {}
+
+bool EchoCmd::DoInitial(PClient* client) { return true; }
+
+void EchoCmd::DoCmd(PClient* client) {
+  if (client->argv_.size() != 2) {
+    return client->SetRes(CmdRes::kWrongNum, client->CmdName());
+  }
+
+  client->AppendString(client->argv_[1]);
+}
+
+AuthCmd::AuthCmd(const std::string& name, int16_t arity) : BaseCmd(name, arity, kCmdFlagsAdmin, kAclCategoryFast) {}
+
+bool AuthCmd::DoInitial(PClient* client) { return true; }
+
+void AuthCmd::DoCmd(PClient* client) {
+  if (client->argv_.size() != 2) {
+    return client->SetRes(CmdRes::kWrongNum, client->CmdName());
+  }
+
+  if (g_config.auth == std::nullopt || !g_config.auth.has_value()) {
+    return client->SetRes(CmdRes::kOK, "Authentication is empty");
+  }
+
+  auto& auth = g_config.auth;
+  if (client->argv_[1] == auth.value()) {
+    client->SetRes(CmdRes::kOK);
+  } else {
+    client->SetRes(CmdRes::kErrOther, "Authentication failed");
+  }
+}
 
 InfoCmd::InfoCmd(const std::string& name, int16_t arity)
     : BaseCmd(name, arity, kCmdFlagsAdmin | kCmdFlagsReadonly, kAclCategoryAdmin) {}
